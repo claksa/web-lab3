@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:composition name="templates/common.xhtml">
+    <ui:define name="main-part">
+        <table class="my_table">
+            <thead>
+            <tr>
+                <td class="graph">
+                    <object class="result-graph" type="image/svg+xml"
+                            data="#{resource['imgs/mygraph.svg']}">
+                        <img src="#{resource['imgs/graph.png']}" width="220" height="220" alt="graph"/>
+                    </object>
+                    <canvas id="canvas">Ваш браузер не поддерживает канву</canvas>
+                </td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th id="name" colspan="2">
+                    Введите значения:
+                </th>
+            </tr>
+            <h:form action="" id="form" method="POST">
+                <tr>
+                    <td>X:</td>
+                    <td>
+                        <h:inputText id="x_value" name="x_value" type="number" step="1" placeholder="-3...5" min="-3" max="5">
+                            <f:validateRequired/>
+                        </h:inputText>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h:panelGrid columns="1" style="margin-bottom: 10px">
+                            <p:inputText id="my-slider" value="5"/>
+<!--                            <f:validateRequired/>-->
+                            <p:slider for="my-slider" minValue="-5" maxValue="5" step="1" range="max"/>
+                        </h:panelGrid>
+                    </td>
+                </tr>
+                <tr>
+                    <td>R:</td>
+                    <td>
+                        <h:inputText id="r_value" name="x_value" type="number" step="1" placeholder="2...5" min="2" max="5">
+                            <f:validateRequired/>
+                        </h:inputText>
+                    </td>
+                </tr>
+            </h:form>
+            </tbody>
+        </table>
+        <table id="row" class="result-table" style="display: none;">
+            <tr>
+                <td>
+                    <h:dataTable>
+                    </h:dataTable>
+                </td>
+            </tr>
+        </table>
+    </ui:define>
+</ui:composition>
+</html>
