@@ -35,8 +35,9 @@
                     </td>
                 </tr>
                 <tr>
+                    <td>Y:</td>
                     <td>
-                        <h:panelGrid columns="1" style="margin-bottom: 10px">
+                        <h:panelGrid columns="1">
                             <p:inputText id="my-slider" value="5"/>
 <!--                            <f:validateRequired/>-->
                             <p:slider for="my-slider" minValue="-5" maxValue="5" step="1" range="max"/>
@@ -51,6 +52,9 @@
                         </h:inputText>
                     </td>
                 </tr>
+                <h:commandButton value="Проверить" action="">
+                    <f:ajax execute="" render=""/>
+                </h:commandButton>
             </h:form>
             </tbody>
         </table>
