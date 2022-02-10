@@ -25,11 +25,12 @@
                     Введите значения:
                 </th>
             </tr>
-            <h:form action="" id="form" method="POST">
+            <h:form action="" id="myform" method="POST">
                 <tr>
                     <td>X:</td>
                     <td>
-                        <h:inputText id="x_value" name="x_value" type="number" step="1" placeholder="-3...5" min="-3" max="5">
+                        <h:inputText id="x_value" name="x_value" type="number" step="1" placeholder="-3...5" min="-3"
+                                     max="5" value="#{resultBean.newResult.x}">
                             <f:validateRequired/>
                         </h:inputText>
                     </td>
@@ -38,34 +39,51 @@
                     <td>Y:</td>
                     <td>
                         <h:panelGrid columns="1">
-                            <p:inputText id="my-slider" value="5"/>
-<!--                            <f:validateRequired/>-->
+                            <p:inputText id="my-slider" value="#{resultBean.newResult.y}"/>
                             <p:slider for="my-slider" minValue="-5" maxValue="5" step="1" range="max"/>
+                            <f:validateRequired/>
                         </h:panelGrid>
                     </td>
                 </tr>
                 <tr>
                     <td>R:</td>
                     <td>
-                        <h:inputText id="r_value" name="x_value" type="number" step="1" placeholder="2...5" min="2" max="5">
+                        <h:inputText id="r_value" name="x_value" type="number" step="1" placeholder="2...5" min="2"
+                                     max="5" value="#{resultBean.newResult.r}">
                             <f:validateRequired/>
                         </h:inputText>
                     </td>
                 </tr>
-                <h:commandButton value="Проверить" action="">
-                    <f:ajax execute="" render=""/>
+                <h:commandButton value="Проверить" action="#{resultBean.addResult}">
+                    <f:ajax execute="myform" render="coordinatesTable"/>
                 </h:commandButton>
             </h:form>
             </tbody>
         </table>
-        <table id="row" class="result-table" style="display: none;">
-            <tr>
-                <td>
-                    <h:dataTable>
-                    </h:dataTable>
-                </td>
-            </tr>
-        </table>
+        <div>
+        <h:dataTable value="#{resultBean.results}" var="res" id="coordinatesTable">
+            <h:column>
+                <f:facet name="header">X</f:facet>
+                <h:outputText value="#{res.x}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Y</f:facet>
+                <h:outputText value="#{res.y}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">R</f:facet>
+                <h:outputText value="#{res.r}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Результат</f:facet>
+                <h:outputText value="#{res.status}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Время</f:facet>
+                <h:outputText value="#{res.currentTime}"/>
+            </h:column>
+        </h:dataTable>
+        </div>
     </ui:define>
 </ui:composition>
 </html>

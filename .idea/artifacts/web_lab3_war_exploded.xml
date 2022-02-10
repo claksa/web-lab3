@@ -14,6 +14,10 @@
           <element id="module-output" name="web-lab3" />
         </element>
         <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: javax.enterprise:cdi-api:1.2" />
+          <element id="library" level="project" name="Maven: javax.el:javax.el-api:3.0.0" />
+          <element id="library" level="project" name="Maven: javax.interceptor:javax.interceptor-api:1.2" />
+          <element id="library" level="project" name="Maven: javax.inject:javax.inject:1" />
           <element id="library" level="project" name="Maven: org.hibernate:hibernate-core:5.4.30.Final" />
           <element id="library" level="project" name="Maven: org.jboss.logging:jboss-logging:3.4.1.Final" />
           <element id="library" level="project" name="Maven: javax.persistence:javax.persistence-api:2.2" />
