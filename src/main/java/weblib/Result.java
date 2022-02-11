@@ -24,9 +24,9 @@ public class Result {
     }
 
     private boolean checkQuarters() {
-        return x <= 0 && y >= 0 && x * x + y * y <= r / 2
-                || x >= 0 && y >= 0 && x <= r / 2 && y <= r
-                || x >= 0 && y <= 0 && y >= x - r / 2;
+        return x >= 0 && y <= 0 && x * x + y * y <= r / 2
+                || x <= 0 && y >= 0 && y <= x + r
+                || x >= 0 && y >= 0 && x <= r && y <= r / 2;
     }
 }
 
