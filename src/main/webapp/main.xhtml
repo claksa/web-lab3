@@ -5,7 +5,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-<ui:composition name="templates/common.xhtml">
+<ui:composition template="WEB-INF/common.xhtml">
     <ui:define name="main-part">
         <table class="my_table">
             <thead>
@@ -41,7 +41,6 @@
                         <h:panelGrid columns="1">
                             <p:inputText id="my-slider" value="#{resultBean.newResult.y}"/>
                             <p:slider for="my-slider" minValue="-5" maxValue="5" step="1" range="max"/>
-                            <f:validateRequired/>
                         </h:panelGrid>
                     </td>
                 </tr>
