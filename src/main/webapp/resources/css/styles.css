@@ -99,6 +99,7 @@ header h5, h4 {
 }
 
 .result-table {
+    width: 100%;
     position: relative;
 }
 .result-table tbody td  {
@@ -220,6 +221,10 @@ input[type="number"]:focus {
 
 #subbtn:hover {
     background-color: #006400;
+}
+
+#res-block {
+    width: 100%;
 }
 
 

@@ -6,46 +6,42 @@ $(document).ready(function () {
         MAX = 5;
 
     let x, y, radius,
-        result_style = $("#res-block").style,
         alert = $(".error"),
         colour = "green",
         canvas = $("#canvas");
 
     function isCorrectInput(number) {
-        return number instanceof Number && !isNaN(number);
+        return (typeof number == "number") && !isNaN(number);
     }
 
     function validateX() {
-        x = $("#x_value").val().replace(',', '.');
-        console.log("x: ${x}");
+        x = $("#my_form\\:x_value").val().replace(',', '.');
         if (isCorrectInput(x)) {
             alert.textContent = "";
             alert.className = "error";
             return true;
         } else {
-            alert.textContent = "Введите значение X в диапазоне от ${X_MIN} до ${MAX}!"
+            alert.textContent = "Введите значение X в диапазоне от " + X_MIN + " до " + MAX;
             alert.className = "error active";
             return false;
         }
     }
 
     function validateY() {
-        y = parseFloat($("#y_value").val().replace(',', '.'));
-        console.log("y: ${y}");
+        y = parseFloat($("#my_form\\:y_value").val().replace(',', '.'));
         if (isCorrectInput(y)) {
             alert.textContent = "";
             alert.className = "error";
             return true;
         } else {
-            alert.textContent = "Введите значение Y в диапазоне от ${Y_MIN} до ${MAX}!"
+            alert.textContent = "Введите значение Y в диапазоне от " + Y_MIN + " до " + MAX;
             alert.className = "error active";
             return false;
         }
     }
 
     function validateR() {
-        radius = $("#r_value").val().replace(',', '.');
-        console.log("radius: ${radius}")
+        radius = $("#my_form\\:r_value").val().replace(',', '.');
         if (isCorrectInput(radius)) {
             alert.textContent = "";
             alert.className = "error";
@@ -61,10 +57,10 @@ $(document).ready(function () {
         return validateX() || validateY() || validateR();
     }
 
-    function checkQuarters(x, y) {
-        return x >= 0 && y <= 0 && x * x + y * y <= radius / 2
-            || x <= 0 && y >= 0 && y <= x + radius
-            || x >= 0 && y >= 0 && x <= radius && y <= radius / 2;
+    function checkQuarters(_x, _y, _r) {
+        return _x >= 0 && _y <= 0 && _x * _x + _y * _y <= _r / 2
+            || _x <= 0 && _y >= 0 && _y <= _x + _r
+            || _x >= 0 && _y >= 0 && _x <= _r && _y <= _r / 2;
     }
 
     function clearCanvas() {
@@ -90,25 +86,37 @@ $(document).ready(function () {
     }
 
     function redrawFromInput() {
-        if (!checkQuarters(x, y)) colour = "red";
+        if (!validateAllInputs()) {
+            console.log("validation in redrawing failed...");
+            clearCanvas();
+            return;
+        }
+        console.log("coordinates:" + " x: " + x + " y: " + y + " r: " + radius);
+        if (!checkQuarters(x,y,radius)) {
+            colour = "red";
+        }
         drawPoint(x * K / radius + AXIS, -(y / radius * K - AXIS), colour);
     }
 
     canvas.on("click", function (event) {
-        if (!validateR()) return;
-        let x = (event.offsetX - AXIS) / K * radius;
-        if (x < X_MIN) x = X_MIN;
-        if (x > MAX) x = MAX;
+        // if (!validateR()) {
+        //     return;
+        // }
+        let x_value = (event.offsetX - AXIS) / K * radius;
+        if (x_value < X_MIN) x_value = X_MIN;
+        if (x_value > MAX) x_value = MAX;
 
-        let y = (-event.offsetY + AXIS) / K * radius;
-        if (y < Y_MIN) y = Y_MIN;
-        if (y > MAX) y = MAX;
+        let y_value = (-event.offsetY + AXIS) / K * radius;
+        if (y_value < Y_MIN) y_value = Y_MIN;
+        if (y_value > MAX) y_value = MAX;
 
-        if (!checkQuarters(x, y)) colour = "red";
-        drawPoint(K * x / radius + AXIS, -(y / radius * K - AXIS), colour);
+        if (!checkQuarters(x_value, y_value, radius)) {
+            colour = "red";
+        }
+        drawPoint(K * x_value / radius + AXIS, -(y_value / radius * K - AXIS), colour);
     });
 
-    $("#r_value").on("input", function () {
+    $("#my_form\\:r_value").on("input", function () {
         radius = $(this).val();
         let svgGraph = document.querySelector(".result-graph").getSVGDocument();
         svgGraph.querySelector('.coordinate-text_minus-Rx').textContent = (-radius).toString();
@@ -122,7 +130,18 @@ $(document).ready(function () {
         redrawFromInput();
     });
 
-    // $("#my_form").on("submit", function () {
-    //     result_style.display = "inline-block";
-    // })
+    $("#my_form\\:form_button").on("click", function (event) {
+        if (!validateAllInputs()) {
+            event.preventDefault();
+        }
+    })
+
+    $("#my_form\\:x_value").on("input", function (event) {
+        redrawFromInput();
+    })
+
+    $("#my_form\\:y_value").on("input", function (event) {
+        redrawFromInput();
+    })
+
 });

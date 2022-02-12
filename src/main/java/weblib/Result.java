@@ -28,6 +28,17 @@ public class Result {
                 || x <= 0 && y >= 0 && y <= x + r
                 || x >= 0 && y >= 0 && x <= r && y <= r / 2;
     }
+
+    @Override
+    public String toString() {
+        return "Result{" +
+                "x=" + x +
+                ", y=" + y +
+                ", r=" + r +
+                ", status='" + status + '\'' +
+                ", currentTime='" + currentTime + '\'' +
+                '}';
+    }
 }
 
 

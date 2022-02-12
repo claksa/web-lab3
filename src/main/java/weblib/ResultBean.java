@@ -14,6 +14,7 @@ public class ResultBean {
         newResult.generateStatus();
         newResult.generateTime();
         results.add(newResult);
+        System.out.println(newResult);
         newResult = new Result();
     }
 
