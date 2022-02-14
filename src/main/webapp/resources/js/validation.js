@@ -3,64 +3,65 @@ $(document).ready(function () {
         AXIS = 110,
         Y_MIN = -5,
         X_MIN = -3,
+        R_MIN = 2,
         MAX = 5;
 
     let x, y, radius,
-        alert = $(".error"),
-        colour = "green",
+        alert = $("#message .error"),
+        colour = "red",
         canvas = $("#canvas");
 
     function isCorrectInput(number) {
-        return (typeof number == "number") && !isNaN(number);
+        return !isNaN(number);
     }
 
     function validateX() {
         x = $("#my_form\\:x_value").val().replace(',', '.');
-        if (isCorrectInput(x)) {
-            alert.textContent = "";
-            alert.className = "error";
+        if (isCorrectInput(x) && x <= MAX && x >= X_MIN) {
+            alert.text("");
+            alert.removeClass("active");
             return true;
         } else {
-            alert.textContent = "Введите значение X в диапазоне от " + X_MIN + " до " + MAX;
-            alert.className = "error active";
+            alert.text("Введите значение X в диапазоне от " + X_MIN + " до " + MAX);
+            alert.addClass("active");
             return false;
         }
     }
 
     function validateY() {
-        y = parseFloat($("#my_form\\:y_value").val().replace(',', '.'));
-        if (isCorrectInput(y)) {
-            alert.textContent = "";
-            alert.className = "error";
+        y = $("#my_form\\:y_value").val().replace(',', '.');
+        if (isCorrectInput(y) && y <= MAX && y >= Y_MIN) {
+            alert.text("");
+            alert.removeClass("active");
             return true;
         } else {
-            alert.textContent = "Введите значение Y в диапазоне от " + Y_MIN + " до " + MAX;
-            alert.className = "error active";
+            alert.text("Введите значение Y в диапазоне от " + Y_MIN + " до " + MAX);
+            alert.addClass("active");
             return false;
         }
     }
 
     function validateR() {
         radius = $("#my_form\\:r_value").val().replace(',', '.');
-        if (isCorrectInput(radius)) {
-            alert.textContent = "";
-            alert.className = "error";
+        if (isCorrectInput(radius) && radius <= MAX && radius >= R_MIN) {
+            alert.text("");
+            alert.removeClass("active");
             return true;
         } else {
-            alert.textContent = "Введите значение R!"
-            alert.className = "error active";
+            alert.text("Введите значение R в диапазоне от " + R_MIN + " до " + MAX);
+            alert.addClass("active");
             return false;
         }
     }
 
     function validateAllInputs() {
-        return validateX() || validateY() || validateR();
+        return validateX() && validateY() && validateR();
     }
 
-    function checkQuarters(_x, _y, _r) {
-        return _x >= 0 && _y <= 0 && _x * _x + _y * _y <= _r / 2
-            || _x <= 0 && _y >= 0 && _y <= _x + _r
-            || _x >= 0 && _y >= 0 && _x <= _r && _y <= _r / 2;
+    function checkQuarters(_x, _y) {
+        return _x >= 0 && _y <= 0 && _x * _x + _y * _y <= radius / 2
+            || _x <= 0 && _y >= 0 && _y <= _x + radius
+            || _x >= 0 && _y >= 0 && _x <= radius && _y <= radius / 2;
     }
 
     function clearCanvas() {
@@ -91,17 +92,16 @@ $(document).ready(function () {
             clearCanvas();
             return;
         }
-        console.log("coordinates:" + " x: " + x + " y: " + y + " r: " + radius);
-        if (!checkQuarters(x,y,radius)) {
-            colour = "red";
+        if (checkQuarters(x, y)) {
+            colour = "green";
         }
         drawPoint(x * K / radius + AXIS, -(y / radius * K - AXIS), colour);
     }
 
     canvas.on("click", function (event) {
-        // if (!validateR()) {
-        //     return;
-        // }
+        if (!validateR()) {
+            return;
+        }
         let x_value = (event.offsetX - AXIS) / K * radius;
         if (x_value < X_MIN) x_value = X_MIN;
         if (x_value > MAX) x_value = MAX;
@@ -110,8 +110,8 @@ $(document).ready(function () {
         if (y_value < Y_MIN) y_value = Y_MIN;
         if (y_value > MAX) y_value = MAX;
 
-        if (!checkQuarters(x_value, y_value, radius)) {
-            colour = "red";
+        if (checkQuarters(x_value, y_value)) {
+            colour = "green";
         }
         drawPoint(K * x_value / radius + AXIS, -(y_value / radius * K - AXIS), colour);
     });
@@ -133,15 +133,15 @@ $(document).ready(function () {
     $("#my_form\\:form_button").on("click", function (event) {
         if (!validateAllInputs()) {
             event.preventDefault();
+            clearCanvas();
+        } else {
+            console.log("coordinates:" + " x: " + x + " y: " + y + " r: " + radius);
+            redrawFromInput();
         }
     })
 
-    $("#my_form\\:x_value").on("input", function (event) {
-        redrawFromInput();
-    })
+    $("#my_form\\:x_value").on("input", () => redrawFromInput())
 
-    $("#my_form\\:y_value").on("input", function (event) {
-        redrawFromInput();
-    })
+    $("#my_form\\:y_value").on("input", () => redrawFromInput())
 
 });

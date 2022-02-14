@@ -2,11 +2,13 @@ package weblib;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 @Data
-public class Result {
+public class Result implements Serializable {
     double x;
     double y;
     double r;
@@ -27,6 +29,19 @@ public class Result {
         return x >= 0 && y <= 0 && x * x + y * y <= r / 2
                 || x <= 0 && y >= 0 && y <= x + r
                 || x >= 0 && y >= 0 && x <= r && y <= r / 2;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Result result = (Result) o;
+        return Double.compare(result.x, x) == 0 && Double.compare(result.y, y) == 0 && Double.compare(result.r, r) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y, r);
     }
 
     @Override

@@ -140,7 +140,6 @@ input:focus:invalid {
     outline: none;
 }
 
-/*стили для кастомных сообщений об ошибке*/
 .error {
     width: 100%;
     padding: 0;
@@ -190,7 +189,6 @@ input[type=button]:active {
     color: #fff;
     background-color: #000080;
     border: none;
-    /*box-shadow: 0 9px #999;*/
 }
 
 .form_button:hover {
@@ -202,7 +200,7 @@ input[type=button]:active {
     transform: translateY(4px);
 }
 
-input[type="number"] {
+.my-fav-inp {
     border: 1px solid #000000;
     border-radius: 3px;
     background: #ffffff;
@@ -213,7 +211,7 @@ input[type="number"] {
     font-size: 11px;
 }
 
-input[type="number"]:focus {
+.my-fav-inp:focus {
     color: #000000;
     border: 2px solid #000080;
     background-color: #d6d1eb;
