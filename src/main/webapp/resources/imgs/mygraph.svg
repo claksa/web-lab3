@@ -21,6 +21,8 @@
     <line class="coordinate-line" x1="176" y1="105" x2="176" y2="115" stroke="black"/>
     <text class="coordinate-text coordinate-text_plus-Rx" x="171" y="100" font-size="14">R</text>
 
+    <text x="200" y="130" font-size="14">X</text>
+
     <!-- Y-Axis coordinates-->
     <line class="coordinate-line" x1="105" y1="176" x2="115" y2="176" stroke="black"/>
     <text class="coordinate-text coordinate-text_minus-Ry" x="120" y="181" font-size="14">-R</text>
@@ -33,6 +35,8 @@
 
     <line class="coordinate-line" x1="105" y1="43" x2="115" y2="43" stroke="black"/>
     <text class="coordinate-text coordinate-text_plus-Ry" x="120" y="48" font-size="14">R</text>
+
+    <text x="120" y="20" font-size="14">Y</text>
 
     <!-- Triangle -->
     <polygon class="svg-figure triangle-figure" points="43,110 110,110 110,43"

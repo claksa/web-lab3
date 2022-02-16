@@ -1,15 +1,16 @@
 $(document).ready(function () {
-    const K = 67,
-        AXIS = 110,
+    let x, y, radius,
+        alert = $("#message .error"),
+        colour = "red", //default
+        res_block = $("#res-block"),
+        canvas = $("#canvas");
+
+    const K = 68,
         Y_MIN = -5,
+        AXIS = canvas.width() / 2,
         X_MIN = -3,
         R_MIN = 2,
         MAX = 5;
-
-    let x, y, radius,
-        alert = $("#message .error"),
-        colour = "red",
-        canvas = $("#canvas");
 
     function isCorrectInput(number) {
         return !isNaN(number);
@@ -58,10 +59,20 @@ $(document).ready(function () {
         return validateX() && validateY() && validateR();
     }
 
-    function checkQuarters(_x, _y) {
-        return _x >= 0 && _y <= 0 && _x * _x + _y * _y <= radius / 2
-            || _x <= 0 && _y >= 0 && _y <= _x + radius
-            || _x >= 0 && _y >= 0 && _x <= radius && _y <= radius / 2;
+    function checkFirstQuarter(_x, _y, _r) {
+        return _x <= 0 && _y >= 0 && _y <= _x + _r;
+    }
+
+    function checkSecondQuarter(_x, _y, _r) {
+        return _x >= 0 && _y >= 0 && _x <= _r && _y <= _r / 2;
+    }
+
+    function checkFourthQuarter(_x, _y, _r) {
+        return _x >= 0 && _y <= 0 && _x * _x + _y * _y <= radius / 2;
+    }
+
+    function checkQuarters(new_x, new_y, new_r) {
+        return checkFirstQuarter(new_x, new_y, new_r) || checkSecondQuarter(new_x, new_y, new_r) || checkFourthQuarter(new_x, new_y, new_r);
     }
 
     function clearCanvas() {
@@ -86,15 +97,31 @@ $(document).ready(function () {
         axes.fill();
     }
 
+    function drawRowPoint(x, y, r, colour) {
+        let ctxPoints = canvas[0].getContext('2d');
+        ctxPoints.fillStyle = colour;
+        ctxPoints.beginPath();
+        ctxPoints.arc(x / r * K + AXIS, -y / r * K + AXIS, 2, 0, 2 * Math.PI);
+        ctxPoints.fill();
+    }
+
+    function redrawAllPointers() {
+        $("#allResults tr").each(function (index) {
+            let data = $(this).find('td');
+            let new_x = data.eq(0).text().trim();
+            let new_y = data.eq(1).text().trim();
+            console.log(index + "row-coordinates: x ( " + new_x + " ), y ( " + new_y + " ), r ( " + radius + " )");
+            colour = checkQuarters(new_x, new_y, radius) ? "green" : "red";
+            drawRowPoint(new_x, new_y, radius, colour);
+        })
+    }
+
     function redrawFromInput() {
         if (!validateAllInputs()) {
-            console.log("validation in redrawing failed...");
             clearCanvas();
             return;
         }
-        if (checkQuarters(x, y)) {
-            colour = "green";
-        }
+        colour = checkQuarters(x, y, radius) ? "green" : "red";
         drawPoint(x * K / radius + AXIS, -(y / radius * K - AXIS), colour);
     }
 
@@ -110,9 +137,7 @@ $(document).ready(function () {
         if (y_value < Y_MIN) y_value = Y_MIN;
         if (y_value > MAX) y_value = MAX;
 
-        if (checkQuarters(x_value, y_value)) {
-            colour = "green";
-        }
+        colour = checkQuarters(x_value, y_value, radius) ? "green" : "red";
         drawPoint(K * x_value / radius + AXIS, -(y_value / radius * K - AXIS), colour);
     });
 
@@ -127,21 +152,18 @@ $(document).ready(function () {
         svgGraph.querySelector('.coordinate-text_plus-Ry').textContent = (radius).toString();
         svgGraph.querySelector('.coordinate-text_plus-half-Rx').textContent = (radius / 2).toString();
         svgGraph.querySelector('.coordinate-text_plus-half-Ry').textContent = (radius / 2).toString();
-        redrawFromInput();
     });
 
     $("#my_form\\:form_button").on("click", function (event) {
+        event.preventDefault();
+        res_block.css("visibility", "visible");
         if (!validateAllInputs()) {
-            event.preventDefault();
-            clearCanvas();
+            console.log("fail validation after click!")
         } else {
-            console.log("coordinates:" + " x: " + x + " y: " + y + " r: " + radius);
             redrawFromInput();
+            console.log("coordinates:" + " x: " + x + " y: " + y + " r: " + radius);
         }
     })
 
-    $("#my_form\\:x_value").on("input", () => redrawFromInput())
-
-    $("#my_form\\:y_value").on("input", () => redrawFromInput())
-
+    setInterval(redrawAllPointers, 600);
 });

@@ -11,7 +11,7 @@ import java.util.Objects;
 public class Result implements Serializable {
     double x;
     double y;
-    double r;
+    double r = 2;
     String status;
     String currentTime;
 

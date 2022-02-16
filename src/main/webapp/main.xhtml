@@ -4,7 +4,8 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 <ui:composition template="WEB-INF/common.xhtml">
     <ui:define name="main-part">
         <table class="my_table">
@@ -15,7 +16,7 @@
                             data="#{resource['imgs/mygraph.svg']}">
                         <img src="#{resource['imgs/graph.png']}" width="220" height="220" alt="graph"/>
                     </object>
-                    <canvas id="canvas">Graph</canvas>
+                    <canvas width="220" height="220" id="canvas">Graph</canvas>
                 </td>
             </tr>
             </thead>
@@ -25,11 +26,12 @@
                     Введите значения:
                 </th>
             </tr>
-            <h:form  id="my_form" method="POST">
+            <h:form id="my_form" method="POST">
                 <tr>
                     <td>X:</td>
                     <td>
-                        <h:inputText id="x_value" name="x_value" styleClass="my-fav-inp" a:placeholder="-3..5" maxlength="4" value="#{resultBean.newResult.x}" autocomplete="off">
+                        <h:inputText id="x_value" name="x_value" styleClass="my-fav-inp" a:placeholder="-3..5"
+                                     maxlength="5" value="#{resultBean.newResult.x}" autocomplete="off">
                             <f:validateRequired/>
                             <f:validateDoubleRange minimum="-3" maximum="5"/>
                         </h:inputText>
@@ -38,7 +40,8 @@
                 <tr>
                     <td>Y:</td>
                     <td>
-                        <p:inputText id="y_value" styleClass="my-fav-inp" value="#{resultBean.newResult.y}" autocomplete="off">
+                        <p:inputText id="y_value" maxlength="5" styleClass="my-fav-inp" value="#{resultBean.newResult.y}"
+                                     autocomplete="off">
                             <f:validateRequired/>
                             <f:validateDoubleRange minimum="-5" maximum="5"/>
                         </p:inputText>
@@ -49,7 +52,8 @@
                 <tr>
                     <td>R:</td>
                     <td>
-                        <h:inputText id="r_value" name="r_value" styleClass="my-fav-inp" a:placeholder="2..5" maxlength="4" value="#{resultBean.newResult.r}" autocomplete="off">
+                        <h:inputText id="r_value" name="r_value" styleClass="my-fav-inp" a:placeholder="2..5"
+                                     maxlength="5" value="#{resultBean.newResult.r}" autocomplete="off" >
                             <f:validateRequired/>
                             <f:validateDoubleRange minimum="2" maximum="5"/>
                         </h:inputText>
@@ -62,7 +66,8 @@
                 </tr>
                 <tr>
                     <td>
-                        <h:commandButton id="form_button" value="Проверить" styleClass="form_button" action="#{resultBean.addResult}">
+                        <h:commandButton type="submit" id="form_button" value="Проверить" styleClass="form_button"
+                                         action="#{resultBean.addResult}">
                             <f:ajax execute="my_form" render="allResults"/>
                         </h:commandButton>
                     </td>
@@ -78,7 +83,7 @@
                 </h:column>
                 <h:column>
                     <f:facet name="header">Y</f:facet>
-                    <h:outputText value="#{res.y}"/>
+                    <h:outputText  value="#{res.y}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">R</f:facet>
@@ -94,8 +99,8 @@
                 </h:column>
             </h:dataTable>
         </div>
-        <h:outputScript library="js" name="validation.js"/>
-        <h:outputScript library="primefaces" name="jquery/jquery.js" target="head" />
+        <h:outputScript library="js" name="validation.js" target="head"/>
+        <h:outputScript library="primefaces" name="jquery/jquery.js" target="head"/>
     </ui:define>
 </ui:composition>
 </html>

@@ -97,7 +97,9 @@ header h5, h4 {
     border-collapse: collapse;
     border-spacing: 10px;
 }
-
+#res-block {
+    visibility: hidden;
+}
 .result-table {
     width: 100%;
     position: relative;
