@@ -3,23 +3,27 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-<ui:composition template="WEB-INF/common.xhtml">
+<ui:composition template="common.xhtml">
     <ui:define name="main-part">
-        <table>
+        <table class="my_table">
+            <tr>
+                <th>Дата:</th>
+                <td id="date"><!--date--></td>
+            </tr>
             <tr>
                 <th>Время:</th>
-                <td><!--time=null--></td>
+                <td id="time"><!--time--></td>
             </tr>
             <tr>
                 <th>Основная страница: </th>
                 <td>
                     <h:link outcome="start">
-                        тут
+                        перейти
                     </h:link>
                 </td>
             </tr>
         </table>
-<!--        <h:outputScript library="js" name="time.js"/>-->
+        <h:outputScript library="js" name="index.js"/>
     </ui:define>
 </ui:composition>
 </html>

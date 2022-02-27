@@ -11,7 +11,7 @@ import java.util.Objects;
 public class Result implements Serializable {
     double x;
     double y;
-    double r = 2;
+    double r;
     String status;
     String currentTime;
 
@@ -26,9 +26,9 @@ public class Result implements Serializable {
     }
 
     private boolean checkQuarters() {
-        return x >= 0 && y <= 0 && x * x + y * y <= r / 2
-                || x <= 0 && y >= 0 && y <= x + r
-                || x >= 0 && y >= 0 && x <= r && y <= r / 2;
+        return x <= 0 && y >= 0 && x * x + y * y <= r
+                || x >= 0 && y >= 0 && x <= r && y <= r / 2
+                || x <= 0 && y <= 0 && y >= -x - r;
     }
 
     @Override

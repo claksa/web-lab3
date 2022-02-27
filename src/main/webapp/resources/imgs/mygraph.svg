@@ -39,7 +39,7 @@
     <text x="120" y="20" font-size="14">Y</text>
 
     <!-- Triangle -->
-    <polygon class="svg-figure triangle-figure" points="43,110 110,110 110,43"
+    <polygon class="svg-figure triangle-figure" points="76,110 110,110 110,143"
              fill="blue" fill-opacity="0.25" stroke="darkblue" stroke-opacity="0.5"/>
 
     <!-- Rectangle -->
@@ -47,6 +47,6 @@
              fill="red" fill-opacity="0.25" stroke="darkred" stroke-opacity="0.5"/>
 
     <!-- Circle -->
-    <path class="svg-figure circle-figure" d="M 110 143 A 66 66 1 0 0 143 110 L 110 110 Z"
+    <path class="svg-figure circle-figure" d="M 111 43 A 66 66 0 0 0 43 110 L 110 110 Z"
           fill="green" fill-opacity="0.25" stroke="darkgreen" stroke-opacity="0.5"/>
 </svg>

@@ -155,7 +155,7 @@ input:focus:invalid {
 }
 
 .error .active {
-    padding: 0.3em;
+    padding: 1em;
 }
 
 
@@ -226,5 +226,10 @@ input[type=button]:active {
 #res-block {
     width: 100%;
 }
+
+a #link_to_index {
+    font-size: 80%;
+}
+
 
 
