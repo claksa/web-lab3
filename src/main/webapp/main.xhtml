@@ -77,6 +77,10 @@
                                          action="#{resultBean.addResult}">
                             <f:ajax execute="my_form" render="allResults"/>
                         </h:commandButton>
+                        <h:commandButton type="reset" value="Сбросить" styleClass="form_button"
+                                         action="#{resultBean.clearAll}">
+                            <f:ajax/>
+                        </h:commandButton>
                     </td>
                 </tr>
                 </tbody>

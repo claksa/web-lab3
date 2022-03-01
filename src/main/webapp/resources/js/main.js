@@ -60,7 +60,7 @@ $(document).ready(function () {
     }
 
     function checkFirstQuarter(_x, _y, _r) {
-        return _x <= 0 && _y >= 0 && _x * _x + _y * _y <= radius;
+        return _x <= 0 && _y >= 0 && _x * _x + _y * _y <= radius * radius;
     }
 
     function checkSecondQuarter(_x, _y, _r) {

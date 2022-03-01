@@ -2,21 +2,41 @@ package weblib;
 
 import lombok.Data;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Objects;
 
 @Data
+@Entity
+@Table(name = "coordinates")
 public class Result implements Serializable {
+
+
+//        id int4 not null,
+//        currentTime varchar(255),
+//        r float8,
+//        status varchar(255),
+//        x float8,
+//        y float8,
+//        primary key (id)
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
+    @Column(name = "x")
     double x;
+    @Column(name = "y")
     double y;
+    @Column(name = "r")
     double r;
+    @Column(name = "status")
     String status;
+    @Column(name = "currentTime")
     String currentTime;
 
     public void generateStatus() {
-        status = checkQuarters() ? "входит в ОДЗ" : "не входит в ОДЗ";
+        status = checkQuarters() ? "точка попала" : "точка не попала";
     }
 
     public void generateTime() {
@@ -26,34 +46,11 @@ public class Result implements Serializable {
     }
 
     private boolean checkQuarters() {
-        return x <= 0 && y >= 0 && x * x + y * y <= r
+        return x <= 0 && y >= 0 && x * x + y * y <= r * r
                 || x >= 0 && y >= 0 && x <= r && y <= r / 2
                 || x <= 0 && y <= 0 && y >= -x - r;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Result result = (Result) o;
-        return Double.compare(result.x, x) == 0 && Double.compare(result.y, y) == 0 && Double.compare(result.r, r) == 0;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(x, y, r);
-    }
-
-    @Override
-    public String toString() {
-        return "Result{" +
-                "x=" + x +
-                ", y=" + y +
-                ", r=" + r +
-                ", status='" + status + '\'' +
-                ", currentTime='" + currentTime + '\'' +
-                '}';
-    }
 }
 
 

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:composition template="common.xhtml">
+    <ui:define name="main-part">
+        <table class="my_table">
+            <thead>
+            <tr>
+                <td class="graph">
+                    <object class="result-graph" type="image/svg+xml"
+                            data="#{resource['imgs/mygraph.svg']}">
+                        <img src="#{resource['imgs/graph.png']}" width="220" height="220" alt="graph"/>
+                    </object>
+                    <canvas width="220" height="220" id="canvas">Graph</canvas>
+                </td>
+            </tr>
+            </thead>
+            <h:form id="my_form" method="POST">
+                <tbody>
+                <tr>
+                    <th id="name" colspan="2">
+                        Введите значения:
+                    </th>
+                </tr>
+                <tr>
+                    <td>X:</td>
+                    <td>
+                        <h:selectOneMenu id="x_value" value="#{resultBean.newResult.x}" styleClass="my-fav-inp">
+                            <f:selectItem itemValue="-4" itemLabel="-4"/>
+                            <f:selectItem itemValue="-3" itemLabel="-3"/>
+                            <f:selectItem itemValue="-2" itemLabel="-2"/>
+                            <f:selectItem itemValue="-1" itemLabel="-1"/>
+                            <f:selectItem itemValue="0" itemLabel="0"/>
+                            <f:selectItem itemValue="1" itemLabel="1"/>
+                            <f:selectItem itemValue="2" itemLabel="2"/>
+                            <f:selectItem itemValue="3" itemLabel="3"/>
+                            <f:selectItem itemValue="4" itemLabel="4"/>
+                            <f:validateRequired/>
+                        </h:selectOneMenu>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Y:</td>
+                    <td>
+                        <h:inputText id="y_value" maxlength="5" styleClass="my-fav-inp"
+                                     value="#{resultBean.newResult.y}"
+                                     autocomplete="off">
+                            <f:validateRequired/>
+                            <f:validateDoubleRange minimum="-3" maximum="3"/>
+                        </h:inputText>
+                    </td>
+                </tr>
+                <tr>
+                    <td>R:</td>
+                    <td>
+                        <h:selectOneRadio id="r_value" value="#{resultBean.newResult.r}">
+                            <f:selectItem itemValue="1" itemLabel="1"/>
+                            <f:selectItem itemValue="2" itemLabel="2"/>
+                            <f:selectItem itemValue="3" itemLabel="3"/>
+                            <f:selectItem itemValue="4" itemLabel="4"/>
+                            <f:selectItem itemValue="5" itemLabel="5"/>
+                            <f:validateRequired/>
+                        </h:selectOneRadio>
+                    </td>
+                </tr>
+                <tr>
+                    <td id="message" colspan="2">
+                        <span class="error" aria-live="polite"><!--error msg--></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <h:commandButton type="submit" id="form_button" value="Проверить" styleClass="form_button"
+                                         action="#{resultBean.addResult}">
+                            <f:ajax execute="my_form" render="allResults"/>
+                        </h:commandButton>
+                        <h:commandButton type="reset" value="Сбросить" styleClass="form_button"
+                                         action="#{resultBean.clearAll}">
+                            <f:ajax/>
+                        </h:commandButton>
+                    </td>
+                </tr>
+                </tbody>
+            </h:form>
+            <tr>
+                <td colspan="2">
+                    <h:link outcome="go_back"><span id="link_to_index">перейти на главную страницу</span></h:link>
+                </td>
+            </tr>
+        </table>
+        <div id="res-block">
+            <h:dataTable value="#{resultBean.results}" var="res" styleClass="result-table" id="allResults">
+                <h:column>
+                    <f:facet name="header">X</f:facet>
+                    <h:outputText value="#{res.x}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Y</f:facet>
+                    <h:outputText value="#{res.y}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">R</f:facet>
+                    <h:outputText value="#{res.r}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Результат</f:facet>
+                    <h:outputText value="#{res.status}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Время</f:facet>
+                    <h:outputText value="#{res.currentTime}"/>
+                </h:column>
+            </h:dataTable>
+        </div>
+        <h:outputScript library="js" name="main.js"/>
+    </ui:define>
+</ui:composition>
+</html>
