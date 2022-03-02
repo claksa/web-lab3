@@ -29,7 +29,7 @@ public class ResultBean implements Serializable {
         transaction = entityManager.getTransaction();
     }
 
-    public String addResult() {
+    public void addResult() {
         newResult.generateStatus();
         newResult.generateTime();
         try {
@@ -45,10 +45,9 @@ public class ResultBean implements Serializable {
             }
             throw e;
         }
-        return "redirect";
     }
 
-    public String clearAll() {
+    public void clearAll() {
         try {
             transaction.begin();
             Query query = entityManager.createQuery("DELETE FROM Result ");
@@ -61,6 +60,5 @@ public class ResultBean implements Serializable {
             }
             throw e;
         }
-        return "redirect";
     }
 }

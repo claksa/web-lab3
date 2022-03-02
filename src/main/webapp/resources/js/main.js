@@ -31,12 +31,12 @@ $(document).ready(function () {
 
     function validateY() {
         y = $("#my_form\\:y_value").val();
-        if (isCorrectInput(y)) {
+        if (isCorrectInput(y) && y <= Y_MAX && y >= Y_MIN) {
             alert.text("");
             alert.removeClass("active");
             return true;
         } else {
-            alert.text("Введите значение Y!");
+            alert.text(`Введите значение Y в диапазоне от ${Y_MIN} до ${Y_MAX}`);
             alert.addClass("active");
             return false;
         }
