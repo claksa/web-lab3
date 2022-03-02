@@ -28,7 +28,7 @@
                 <tr>
                     <td>X:</td>
                     <td>
-                        <h:selectOneMenu id="x_value" value="#{resultBean.newResult.x}" styleClass="my-fav-inp">
+                        <h:selectOneMenu id="x_value" value="#{resultBean.newResult.x_value}" styleClass="my-fav-inp">
                             <f:selectItem itemValue="-4" itemLabel="-4"/>
                             <f:selectItem itemValue="-3" itemLabel="-3"/>
                             <f:selectItem itemValue="-2" itemLabel="-2"/>
@@ -46,7 +46,7 @@
                     <td>Y:</td>
                     <td>
                         <h:inputText id="y_value" maxlength="5" styleClass="my-fav-inp"
-                                     value="#{resultBean.newResult.y}"
+                                     value="#{resultBean.newResult.y_value}"
                                      autocomplete="off">
                             <f:validateRequired/>
                             <f:validateDoubleRange minimum="-3" maximum="3"/>
@@ -56,7 +56,7 @@
                 <tr>
                     <td>R:</td>
                     <td>
-                        <h:selectOneRadio id="r_value" value="#{resultBean.newResult.r}">
+                        <h:selectOneRadio id="r_value" value="#{resultBean.newResult.r_value}">
                             <f:selectItem itemValue="1" itemLabel="1"/>
                             <f:selectItem itemValue="2" itemLabel="2"/>
                             <f:selectItem itemValue="3" itemLabel="3"/>
@@ -77,9 +77,8 @@
                                          action="#{resultBean.addResult}">
                             <f:ajax execute="my_form" render="allResults"/>
                         </h:commandButton>
-                        <h:commandButton type="reset" value="Сбросить" styleClass="form_button"
-                                         action="#{resultBean.clearAll}">
-                            <f:ajax/>
+                        <h:commandButton  type="reset" id="reset_button" value="Сбросить" styleClass="form_button">
+                            <f:ajax event="click" listener="#{resultBean.clearAll}" render="allResults"/>
                         </h:commandButton>
                     </td>
                 </tr>
@@ -95,15 +94,15 @@
             <h:dataTable value="#{resultBean.results}" var="res" styleClass="result-table" id="allResults">
                 <h:column>
                     <f:facet name="header">X</f:facet>
-                    <h:outputText value="#{res.x}"/>
+                    <h:outputText value="#{res.x_value}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">Y</f:facet>
-                    <h:outputText value="#{res.y}"/>
+                    <h:outputText value="#{res.y_value}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">R</f:facet>
-                    <h:outputText value="#{res.r}"/>
+                    <h:outputText value="#{res.r_value}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">Результат</f:facet>

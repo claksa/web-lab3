@@ -12,24 +12,15 @@ import java.time.format.DateTimeFormatter;
 @Table(name = "coordinates")
 public class Result implements Serializable {
 
-
-//        id int4 not null,
-//        currentTime varchar(255),
-//        r float8,
-//        status varchar(255),
-//        x float8,
-//        y float8,
-//        primary key (id)
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    @Column(name = "x")
-    double x;
-    @Column(name = "y")
-    double y;
-    @Column(name = "r")
-    double r;
+    @Column(name = "x_value")
+    double x_value;
+    @Column(name = "y_value")
+    double y_value;
+    @Column(name = "r_value")
+    double r_value;
     @Column(name = "status")
     String status;
     @Column(name = "currentTime")
@@ -46,9 +37,9 @@ public class Result implements Serializable {
     }
 
     private boolean checkQuarters() {
-        return x <= 0 && y >= 0 && x * x + y * y <= r * r
-                || x >= 0 && y >= 0 && x <= r && y <= r / 2
-                || x <= 0 && y <= 0 && y >= -x - r;
+        return x_value <= 0 && y_value >= 0 && x_value * x_value + y_value * y_value <= r_value * r_value
+                || x_value >= 0 && y_value >= 0 && x_value <= r_value && y_value <= r_value / 2
+                || x_value <= 0 && y_value <= 0 && y_value >= -x_value - r_value / 2;
     }
 
 }

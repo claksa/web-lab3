@@ -10,7 +10,7 @@ $(document).ready(function () {
         Y_MAX = 3,
         AXIS = canvas.width() / 2,
         X_VALUES = ['-4', '-3', '-2', '-1', '0', '1', '2', '3', '4'],
-        R_VALUES = ['1','2','3','4','5'];
+        R_VALUES = ['1', '2', '3', '4', '5'];
 
     function isCorrectInput(number) {
         return !isNaN(number);
@@ -68,7 +68,7 @@ $(document).ready(function () {
     }
 
     function checkThirdQuarter(_x, _y, _r) {
-        return _x <= 0 && _y <= 0 && _y >= -_x - radius;
+        return _x <= 0 && _y <= 0 && _y >= -_x - radius / 2;
     }
 
     function checkQuarters(new_x, new_y, new_r) {
@@ -152,7 +152,7 @@ $(document).ready(function () {
         drawPoint(K * nearestXValue / radius + AXIS, -(y_value / radius * K - AXIS), colour);
     });
 
-    $('input[name="my_form:r_value"]:checked').on("check", function () {
+    $('input[name="my_form:r_value"]').on("change", function () {
         radius = $(this).val();
         let svgGraph = document.querySelector(".result-graph").getSVGDocument();
         svgGraph.querySelector('.coordinate-text_minus-Rx').textContent = (-radius).toString();
@@ -163,7 +163,7 @@ $(document).ready(function () {
         svgGraph.querySelector('.coordinate-text_plus-Ry').textContent = (radius).toString();
         svgGraph.querySelector('.coordinate-text_plus-half-Rx').textContent = (radius / 2).toString();
         svgGraph.querySelector('.coordinate-text_plus-half-Ry').textContent = (radius / 2).toString();
-        redrawFromInput(x,y,radius);
+        redrawFromInput(x, y, radius);
     });
 
     $('#my_form\\:y_value').on('input', () => redrawFromInput(x, y, radius));
@@ -177,6 +177,15 @@ $(document).ready(function () {
         } else {
             console.log("coordinates:" + " x: " + x + " y: " + y + " r: " + radius);
         }
+    })
+
+    $("#my_form\\:reset_button").on("click", function () {
+        $("#my_form\\:x_value").val(0);
+        $("#my_form\\:y_value").val(0);
+        Array.from(document.querySelectorAll('input[name="my_form:r_value"]:checked'), input => input.checked = false);
+        radius = '';
+        clearCanvas();
+        res_block.css("visibility", "hidden");
     })
 
     setInterval(redrawAllPointers, 600);

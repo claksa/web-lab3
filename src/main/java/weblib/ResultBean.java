@@ -13,8 +13,7 @@ import java.util.List;
 @ManagedBean
 @SessionScoped
 public class ResultBean implements Serializable {
-    EntityManagerFactory entityManagerFactory;
-
+    private EntityManagerFactory entityManagerFactory;
     private EntityManager entityManager;
     private EntityTransaction transaction;
     private Result newResult;
@@ -28,30 +27,15 @@ public class ResultBean implements Serializable {
         entityManagerFactory = Persistence.createEntityManagerFactory("PostgresPU");
         entityManager = entityManagerFactory.createEntityManager();
         transaction = entityManager.getTransaction();
-
-        getAll();
     }
 
-
-    public void addResult() {
+    public String addResult() {
         newResult.generateStatus();
         newResult.generateTime();
         try {
             transaction.begin();
             entityManager.persist(newResult);
-            transaction.commit();
             newResult = new Result();
-        } catch (RuntimeException e) {
-            if (transaction.isActive()) {
-                transaction.rollback();
-            }
-            throw e;
-        }
-    }
-
-    public void getAll() {
-        try {
-            transaction.begin();
             Query query = entityManager.createQuery("SELECT e FROM Result e");
             results = query.getResultList();
             transaction.commit();
@@ -61,9 +45,10 @@ public class ResultBean implements Serializable {
             }
             throw e;
         }
+        return "redirect";
     }
 
-    public void clearAll() {
+    public String clearAll() {
         try {
             transaction.begin();
             Query query = entityManager.createQuery("DELETE FROM Result ");
@@ -76,6 +61,6 @@ public class ResultBean implements Serializable {
             }
             throw e;
         }
+        return "redirect";
     }
-
 }
