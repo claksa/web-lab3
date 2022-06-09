@@ -96,12 +96,12 @@
             <classpath>
                 <path refid="classpath" />
                 <fileset dir="${LibDir}">
-                    <include name="/junit-4.8.1.jar" />
+                    <include name="**/junit-4.8.1.jar" />
                 </fileset>
             </classpath>
             <formatter type="plain" usefile="false"/>
             <batchtest>
-                <fileset dir="src/test/java" includes="**/*Test.java"/>
+                <fileset dir="src/test/java" includes="**/MainTest.java"/>
             </batchtest>
         </junit>
     </target>
