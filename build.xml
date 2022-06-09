@@ -1,0 +1,117 @@
+<project name="web-lab3">
+    <property file="build.properties"/>
+
+    <target name="E:\МИСПИ\web-lab3\build.xml" depends="buildJar">
+
+    </target>
+
+    <target name="compile">
+        <mkdir dir="${BuildDir}"/>
+        <mkdir dir="${BuildDir}/resources"/>
+        <mkdir dir="${BuildDir}/WEB-INF/classes"/>
+        <mkdir dir="${BuildDir}/WEB-INF/lib"/>
+
+        <path id="classpath">
+            <fileset dir="${LibDir}" includes="*.jar"/>
+        </path>
+
+
+        <javac includeantruntime="false" destdir="${BuildDir}/WEB-INF/classes">
+            <src path="${SrcDir}/java"/>
+            <classpath refid="classpath"/>
+        </javac>
+
+        <copy todir="${BuildDir}/WEB-INF/lib" flatten="true">
+            <path refid="classpath"/>
+        </copy>
+
+        <copy todir="${BuildDir}/WEB-INF/classes">
+            <fileset dir="${SrcDir}/resources" includes="**"/>
+        </copy>
+
+        <copy todir="${BuildDir}">
+            <fileset dir="${SrcDir}/webapp" includes="*.xhtml"/>
+        </copy>
+
+        <copy todir="${BuildDir}/WEB-INF">
+            <fileset dir="${SrcDir}/webapp/WEB-INF" includes="web.xml"/>
+        </copy>
+
+        <copy todir="${BuildDir}/resources">
+            <fileset dir="${SrcDir}/webapp/resources" includes="**"/>
+        </copy>
+    </target>
+
+    <target name="buildWar" depends="compile">
+        <mkdir dir="${TargetDir}"/>
+        <mkdir dir="${BuildDir}/META-INF"/>
+
+        <manifest file="${BuildDir}/META-INF/MANIFEST.MF">
+            <attribute name="Built-By" value="Me"/>
+            <attribute name="Created-By" value="ant"/>
+            <attribute name="Build-jdk" value="${java.version}"/>
+        </manifest>
+
+        <war destfile="${TargetDir}/${TargetWarName}">
+            <fileset dir="${BuildDir}" includes="**"/>
+        </war>
+    </target>
+
+    <target name="buildJar" depends="compile">
+        <mkdir dir="${TargetDir}"/>
+
+        <jar destfile="${TargetDir}/${TargetJarName}">
+            <manifest>
+                <attribute name="Built-By" value="Me"/>
+                <attribute name="Created-By" value="ant"/>
+                <attribute name="Build-jdk" value="${java.version}"/>
+                <attribute name="Main-Class" value="${MainClass}"/>
+            </manifest>
+
+            <fileset dir="${BuildDir}/WEB-INF/classes" includes="**"/>
+        </jar>
+    </target>
+
+    <target name="compileTests" >
+        <path id="classpath">
+            <fileset dir="${LibDir}" includes="*.jar"/>
+        </path>
+
+        <echo>Compile tests</echo>
+        <javac includeantruntime="false" destdir="${TestBuildDir}">
+            <src path="${TestDir}/java/tests"/>
+            <classpath refid="classpath"/>
+        </javac>
+    </target>
+
+    <target name="test" depends="buildJar, compileTests">
+
+        <path id="classpath">
+            <fileset dir="${LibDir}" includes="*.jar"/>
+            <pathelement location="build/WEB-INF/classes/"/>
+        </path>
+
+        <junit fork="yes" haltonfailure="yes">
+            <classpath refid="classpath"/>
+            <classpath>
+                <path refid="classpath" />
+                <fileset dir="${LibDir}">
+                    <include name="/junit-4.8.1.jar" />
+                </fileset>
+            </classpath>
+            <formatter type="plain" usefile="false"/>
+            <batchtest>
+                <fileset dir="src/test/java" includes="**/*Test.java"/>
+            </batchtest>
+        </junit>
+    </target>
+
+    <target name="clean">
+        <delete dir="${BuildDir}"/>
+        <delete dir="${TestBuildDir}"/>
+    </target>
+
+    <target name="scp" depends="buildWar">
+        <scp file="${TargetDir}/${TargetWarName}" todir="${User}:${Password}@${Host}:${RemoteDir}" port="2222"/>
+    </target>
+</project>

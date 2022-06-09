@@ -36,10 +36,22 @@ public class Result implements Serializable {
         currentTime = LocalDateTime.now().format(formatter);
     }
 
-    private boolean checkQuarters() {
-        return x_value <= 0 && y_value >= 0 && x_value * x_value + y_value * y_value <= r_value * r_value
-                || x_value >= 0 && y_value >= 0 && x_value <= r_value && y_value <= r_value / 2
-                || x_value <= 0 && y_value <= 0 && y_value >= -x_value - r_value / 2;
+    public boolean checkQuarters() {
+        return checkFirstQuarter()
+                || checkSecondQuarter()
+                || checkThirdQuarter();
+    }
+
+    public boolean checkFirstQuarter() {
+        return x_value <= 0 && y_value >= 0 && x_value * x_value + y_value * y_value <= r_value * r_value;
+    }
+
+    public boolean checkSecondQuarter() {
+        return x_value >= 0 && y_value >= 0 && x_value <= r_value && y_value <= r_value / 2;
+    }
+
+    public boolean checkThirdQuarter() {
+        return x_value <= 0 && y_value <= 0 && y_value >= -x_value - r_value / 2;
     }
 
 }

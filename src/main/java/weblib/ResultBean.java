@@ -32,6 +32,7 @@ public class ResultBean implements Serializable {
     public void addResult() {
         newResult.generateStatus();
         newResult.generateTime();
+
         try {
             transaction.begin();
             entityManager.persist(newResult);

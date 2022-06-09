@@ -17,7 +17,7 @@ $(document).ready(function () {
     }
 
     function validateX() {
-        x = $("#my_form\\:x_value").val();
+        x = $("#my_form\\:x_value").val().replace(',','.');
         if (isCorrectInput(x) && X_VALUES.includes(x)) {
             alert.text("");
             alert.removeClass("active");
@@ -30,7 +30,7 @@ $(document).ready(function () {
     }
 
     function validateY() {
-        y = $("#my_form\\:y_value").val();
+        y = $("#my_form\\:y_value").val().replace(',','.');
         if (isCorrectInput(y) && y <= Y_MAX && y >= Y_MIN) {
             alert.text("");
             alert.removeClass("active");
