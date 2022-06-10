@@ -4,12 +4,6 @@
     <path id="classpath">
         <fileset dir="${LibDir}" includes="*.jar"/>
     </path>
-    <path id="testClasses">
-        <fileset dir="${TestDir}/java/tests">
-            <include name="*"/>
-        </fileset>
-        <pathelement path="${TestBuildDir}/classes"/>
-    </path>
 
     <target name="E:\МИСПИ\web-lab3\build.xml" depends="buildJar">
 
@@ -82,10 +76,10 @@
         <echo>Compile tests</echo>
         <javac includeantruntime="false"
                destdir="${TestBuildDir}/testClasses">
-            <src path="${TestDir}/java/tests"/>
+            <src path="${TestDir}/java"/>
             <classpath>
-                <path refid="classpath" />
-                <path refid="testClasses"/>
+                <path refid="classpath"/>
+                <pathelement location="${BuildDir}/WEB-INF/classes"/>
             </classpath>
         </javac>
     </target>
@@ -93,13 +87,14 @@
     <target name="test" depends="buildJar, compileTests">
 
         <junit fork="yes" haltonfailure="yes">
-            <classpath refid="classpath"/>
             <classpath>
                 <path refid="classpath" />
+                <pathelement location="${TestBuildDir}/testClasses"/>
+                <pathelement location="${BuildDir}/WEB-INF/classes"/>
             </classpath>
             <formatter type="plain" usefile="false"/>
             <batchtest>
-                <fileset dir="src/test/java" includes="**/MainTest.java"/>
+                <fileset dir="${TestBuildDir}/testClasses" includes="**/MainTest*"/>
             </batchtest>
         </junit>
     </target>
@@ -111,5 +106,48 @@
 
     <target name="scp" depends="buildWar">
         <scp file="${TargetDir}/${TargetWarName}" todir="${User}:${Password}@${Host}:${RemoteDir}" port="2222"/>
+    </target>
+
+    <taskdef resource="net/sf/antcontrib/antlib.xml">
+        <classpath>
+            <pathelement location="ant-contrib-1.0b3.jar"/>
+        </classpath>
+    </taskdef>
+
+    <target name="diff">
+        <exec executable="git" outputproperty="diff">
+            <arg value="diff"/>
+            <arg value="--name-only"/>
+            <arg value="HEAD"/>
+            <redirector output="diff.txt" alwayslog="true"/>
+        </exec>
+        <for list="${DiffFiles}" param="file">
+            <sequential>
+                <echo>@{file}</echo>
+                <exec executable="findstr" outputproperty="grep.out">
+                    <arg value="/x"/>
+                    <arg value="@{file}"/>
+                    <arg value="diff.txt"/>
+                </exec>
+                <echo>${grep.out}</echo>
+                <if>
+                    <length string="${grep.out}" length="0" trim="true" when="gt"/>
+                    <then>
+                        <delete file="diff.txt"/>
+                        <fail message="@{file} is changed"/>
+                    </then>
+                </if>
+            </sequential>
+        </for>
+        <delete file="diff.txt"/>
+        <exec executable="git">
+            <arg value="add"/>
+            <arg value="*"/>
+        </exec>
+        <exec executable="git">
+            <arg value="commit"/>
+            <arg value="-m"/>
+            <arg value="Commit"/>
+        </exec>
     </target>
 </project>
