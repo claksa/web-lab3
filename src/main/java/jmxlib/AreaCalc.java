@@ -3,13 +3,16 @@ package jmxlib;
 
 import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class AreaCalc implements AreaCalcMBean {
     double area = 0;
+    double radius = 0;
 
     @Override
-    public void calcArea(double radius) {
+    public double calcArea() {
         this.area = calcQuadArea(radius) + calcRectangleArea(radius) + calcTriangleArea(radius);
-        System.out.println("Площадь фигуры: " + area);
+        log.info("Площадь фигуры: {}", area);
+        return area;
     }
 
     private double calcQuadArea(double radius) {
@@ -22,5 +25,9 @@ public class AreaCalc implements AreaCalcMBean {
 
     private double calcRectangleArea(double radius) {
         return radius * radius / 2d;
+    }
+
+    public void setRadius(double radius) {
+        this.radius = radius;
     }
 }

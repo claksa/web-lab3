@@ -1,7 +1,8 @@
 package jmxlib;
 
 public interface ResCheckerMBean {
-    void countPointsAmount(int size);
-    void countOutPointsAmount(boolean pointStatus);
     void sendMessage();
+    int getMishit();
+    int getPointsAmount();
+    void setPointsAmount(int pointsAmount);
 }

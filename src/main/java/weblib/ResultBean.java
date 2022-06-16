@@ -38,8 +38,8 @@ public class ResultBean implements Serializable {
         transaction = entityManager.getTransaction();
 
         MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
-        ObjectName resName = new ObjectName("weblib:type=ResCheckerMBean");
-        ObjectName areaName = new ObjectName("weblib:type=AreaCalcMBean");
+        ObjectName resName = new ObjectName("weblib:type=ResChecker");
+        ObjectName areaName = new ObjectName("weblib:type=AreaCalc");
         resChecker = new ResChecker();
         areaCalc = new AreaCalc();
         mBeanServer.registerMBean(resChecker, resName);
@@ -53,12 +53,13 @@ public class ResultBean implements Serializable {
         try {
             transaction.begin();
             entityManager.persist(newResult);
-            areaCalc.calcArea(newResult.getR_value());
-            resChecker.countOutPointsAmount(newResult.checkQuarters());
+            areaCalc.setRadius(newResult.getR_value());
+            areaCalc.calcArea();
+            resChecker.calcMishit(newResult.checkQuarters());
             newResult = new Result();
             Query query = entityManager.createQuery("SELECT e FROM Result e");
             results = query.getResultList();
-            resChecker.countPointsAmount(results.size());
+            resChecker.setPointsAmount(results.size());
             transaction.commit();
         } catch (RuntimeException e) {
             if (transaction.isActive()) {

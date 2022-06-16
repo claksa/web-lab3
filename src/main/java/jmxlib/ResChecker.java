@@ -1,6 +1,7 @@
 package jmxlib;
 
 
+
 import lombok.extern.slf4j.Slf4j;
 
 import javax.management.AttributeChangeNotification;
@@ -8,7 +9,7 @@ import javax.management.MBeanNotificationInfo;
 import javax.management.Notification;
 import javax.management.NotificationBroadcasterSupport;
 
-
+@Slf4j
 public class ResChecker
         extends NotificationBroadcasterSupport
         implements ResCheckerMBean {
@@ -21,24 +22,25 @@ public class ResChecker
 
 
     @Override
-    public void countPointsAmount(int size) {
-        this.pointsAmount = size;
-        System.out.println("Текущее количество точек: " + pointsAmount);
+    public void setPointsAmount(int pointsAmount) {
+        this.pointsAmount = pointsAmount;
+        log.info("Текущее количество точек: {}",pointsAmount);
     }
 
-    @Override
-    public void countOutPointsAmount(boolean pointStatus) {
+
+    public void calcMishit(boolean pointStatus) {
         if (!pointStatus) {
             ++mishit;
-            System.out.println("Точка не попала в область.\n" +
-                    "Число промахов: " + mishit);
+            log.info("Точка не попала в область.\n" +
+                    "Число промахов: {}", mishit);
         } else {
-            System.out.println("Отправленная пользователем точка попала\n" +
-                    "Число промахов: " + mishit);
+            log.info("Отправленная пользователем точка попала\n" +
+                    "Число промахов: {}", mishit);
         }
 
         if (isEnoughMisHit()) sendMessage();
     }
+
 
     @Override
     public MBeanNotificationInfo[] getNotificationInfo() {
@@ -66,9 +68,19 @@ public class ResChecker
     private boolean isEnoughMisHit() {
         if (mishit % 4 == 0) {
             ++mishitNum;
-            System.out.println("Достигнуто достаточное число промахов: "+ mishit);
+            log.info("Достигнуто достаточное число промахов: {}",mishit);
             return true;
         } else return false;
+    }
+
+    @Override
+    public int getPointsAmount() {
+        return pointsAmount;
+    }
+
+    @Override
+    public int getMishit() {
+        return mishit;
     }
 
 }
