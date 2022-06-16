@@ -37,22 +37,6 @@ public class MainTest {
         assertTrue(result.checkFirstQuarter());
     }
 
-
-//    @Test
-//    void testFirstQuarterInFigureWithR() {
-//        result.setX_value(-1);
-//        result.setY_value(2);
-//        result.setR_value(3);
-//
-//        while (result.getR_value() <= 5) {
-//            assertTrue(result.checkFirstQuarter());
-//            double r = result.getR_value();
-//            r++;
-//            result.setR_value(r);
-//        }
-//    }
-
-
     @Test
     public void testFirstQuarterOut() {
         result.setX_value(4);

@@ -23,7 +23,7 @@ public class Result implements Serializable {
     double r_value;
     @Column(name = "status")
     String status;
-    @Column(name = "currentTime")
+    @Column(name = "time")
     String currentTime;
 
     public void generateStatus() {
