@@ -25,8 +25,8 @@ public class ResultBean implements Serializable {
     private EntityTransaction transaction;
     private Result newResult;
     private List<?> results;
-    private AreaCalcMBean areaCalc;
-    private ResCheckerMBean resChecker;
+    private AreaCalc areaCalc;
+    private ResChecker resChecker;
 
 
     public ResultBean() throws Exception {
