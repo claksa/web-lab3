@@ -57,10 +57,12 @@ public class ResultBean implements Serializable {
             areaCalc.calcArea();
             resChecker.calcMishit(newResult.checkQuarters());
             newResult = new Result();
+
             Query query = entityManager.createQuery("SELECT e FROM Result e");
             results = query.getResultList();
-            resChecker.setPointsAmount(results.size());
             transaction.commit();
+
+            resChecker.setPointsAmount(results.size());
         } catch (RuntimeException e) {
             if (transaction.isActive()) {
                 transaction.rollback();

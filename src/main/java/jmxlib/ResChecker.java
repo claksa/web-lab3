@@ -21,10 +21,9 @@ public class ResChecker
     String errorMsg = "Число промахов = 4";
 
 
-    @Override
     public void setPointsAmount(int pointsAmount) {
         this.pointsAmount = pointsAmount;
-        log.info("Текущее количество точек: {}",pointsAmount);
+        log.info("Текущее количество точек: {}",this.pointsAmount);
     }
 
 
